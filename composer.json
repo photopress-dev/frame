@@ -1,0 +1,27 @@
+{
+	"name"        : "photopress/frame",
+	"description" : "Frame: A theme framework for developing PhotoPress themes.",
+	"keywords"    : [ "wordpress" ],
+	"homepage"    : "https://www.photopressdev.com",
+	"license"     : "GPL-2.0-or-later",
+	"authors"     : [
+		{
+			"name"     : "Peter Adams",
+			"email"    : "hello@photopressdev.com",
+			"homepage" : "http://www.photopressdev.com",
+			"role"     : "Developer"
+		}
+	],
+	"support"     : {
+		"issues" : "https://github.com/padams/frame/issues"
+	},
+	"autoload"    : {
+		"psr-4" : {
+			"Frame\\" : "framework/"
+		}
+	},
+	"require"     : {
+		"php" : ">=5.6",
+		"tgmpa/tgm-plugin-activation" : "^2.6.0"
+	}
+}
