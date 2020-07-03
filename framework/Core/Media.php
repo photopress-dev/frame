@@ -2,12 +2,15 @@
 	
 namespace Frame\Core;
 
+/**
+ * Media functions.
+ */
 class Media {
 	
 	public static function display_attachment_image( array $args = [] ) {
 		
 		$args = wp_parse_args( $args, [
-			'size'   => 'full',
+			'size'   => null,
 			'__'  => ''
 		] );
 
