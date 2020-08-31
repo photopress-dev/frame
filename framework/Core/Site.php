@@ -26,7 +26,7 @@ class Site {
 		echo self::render_name( $args );
 	}
 	
-	public static function render_description( $args ) {
+	public static function render_description( $args = [] ) {
 		
 		$args = wp_parse_args( $args, [
 			'tag'   => 'div',
@@ -39,12 +39,12 @@ class Site {
 		if ( $d ) { 
 			
 			$args = \Frame\Core\Util::rekey_as_needles( $args );
-			return strtr('<{tag} class="{class}">'. $d . '</{tag}>' $args);
+			return strtr('<{tag} class="{class}">'. $d . '</{tag}>', $args);
 		}
 
 	}
 	
-	public static function display_description( $args ) {
+	public static function display_description( $args = [] ) {
 		
 		echo self::render_description( $args );
 	}
