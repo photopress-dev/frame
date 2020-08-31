@@ -29,6 +29,30 @@ class Theme {
 		$this->load_options();
 		$this->setup_customizer();
 		$this->setup_tgm();
+		$this->enqueue_assets();
+		
+		add_filter( 'pre_get_posts', [$this, 'setup_query'] );
+		
+		
+		
+	}
+	
+	public function enqueue_assets() {
+		
+		
+		wp_enqueue_style( 'frame-common-styles', self::get_framework_uri('assets/css/common.css'), array(), FRAME_VERSION );
+	}
+	
+	public function setup_query( $query ) {
+		
+		if ( $query->is_search ) {
+		    
+	       $query->set( 'post_type', apply_filters( 'frame/search/post_types', [] ) );
+	       $query->set( 'post_status', [ 'publish', 'inherit' ] );
+	       $query->set( 'posts_per_page', apply_filters( 'frame/search/posts_per_page', 50 ) );
+	    }
+	 
+	   return $query;
 	}
 	
 	public function setup_hierarchies() {
