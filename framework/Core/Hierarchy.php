@@ -47,6 +47,7 @@ class Hierarchy {
 		}
 	}
 	
+	
 	public function single( $templates ) {
 		
 		$templates = [];

@@ -21,6 +21,7 @@ class Media {
 			'vertical_offset' 	=> apply_filters('frame/media/vertical_offset', 0),
 			'horizontal_offset' => apply_filters('frame/media/horizontal_offset', 0),
 			'class'				=> 'image-single',
+			'link'				=> true,
 			'__'  				=> ''
 		] );
 		
@@ -62,7 +63,18 @@ class Media {
 			$attrs['sizes'] = "calc( (100vh - $vertical_offset ) * $aspect_ratio )";	
 		} 
 		
-		echo wp_get_attachment_image( $post_id, $args['size'], '', $attrs );
+		$img = wp_get_attachment_image( $post_id, $args['size'], '', $attrs );
+		
+		if ( $args['link'] ) {
+			
+			$url = get_attachment_link( $post_id );
+			
+			echo sprintf('<a href="%s">%s</a>', esc_url($url), $img ) ;
+			
+		} else {
+			
+			echo $img;
+		}
 	}
 	
 	public static function render_caption( $post_id = '') {

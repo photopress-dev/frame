@@ -49,8 +49,10 @@ class Theme {
 		    
 	       $query->set( 'post_type', apply_filters( 'frame/search/post_types', [] ) );
 	       $query->set( 'post_status', [ 'publish', 'inherit' ] );
-	       $query->set( 'posts_per_page', apply_filters( 'frame/search/posts_per_page', 50 ) );
+	       
 	    }
+	    
+	    $query->set( 'posts_per_page', apply_filters( 'frame/query/posts_per_page', 50 ) );
 	 
 	   return $query;
 	}

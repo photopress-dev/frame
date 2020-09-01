@@ -26,6 +26,18 @@ class Taxonomy {
 		return $t->label;
 	}
 	
+	public static function get_term() {
+		
+		$term = get_term_by( 'slug', get_query_var( 'term' ), self::get_slug() ); 
+		return $term->name;
+		
+	}
+	
+	public static function display_term() {
+		
+		echo self::get_term();
+	}
+	
 	public static function display_label( $taxonomy_name = '' ) {
 		
 		echo self::get_label( $taxonomy_name );
@@ -56,7 +68,12 @@ class Taxonomy {
 		}
 	}
 		
-	
+	public static function get_count() {
+		
+		global $wp_query;
+		
+		return $wp_query->found_posts ? $wp_query->found_posts : 0;
+	}
 	
 }
 

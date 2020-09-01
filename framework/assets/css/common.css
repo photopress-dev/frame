@@ -69,3 +69,7 @@
 	
 	padding:10px;	
 }
+
+.infinite-scroll .pagination {
+	display: none;
+}
