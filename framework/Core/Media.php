@@ -65,16 +65,20 @@ class Media {
 		
 		$img = wp_get_attachment_image( $post_id, $args['size'], '', $attrs );
 		
+		
+		$markup = '';
 		if ( $args['link'] ) {
 			
 			$url = get_attachment_link( $post_id );
 			
-			echo sprintf('<a href="%s">%s</a>', esc_url($url), $img ) ;
+			$markup = sprintf('<a href="%s">%s</a>', esc_url($url), $img ) ;
 			
 		} else {
 			
-			echo $img;
+			$markup = $img;
 		}
+		
+		echo apply_filters( 'frame/attachment/image_markup', $markup, $post_id );
 	}
 	
 	public static function render_caption( $post_id = '') {
