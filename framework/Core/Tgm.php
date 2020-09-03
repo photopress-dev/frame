@@ -1,8 +1,7 @@
 <?php
 
 namespace Frame\Core;
-
-require_once trailingslashit( get_template_directory() ). 'frame/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php';
+use tgmpa;
 
 class Tgm {
 	
