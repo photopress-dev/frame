@@ -16,7 +16,7 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 		 */
 		public function enqueue(){
 			
-			wp_enqueue_style( 'frame-custom-controls-css', \Frame\Core\Theme::get_parent_theme_uri( 'frame/framework/assets/css/customizer.css' ), array(), FRAME_VERSION, 'all' );
+			wp_enqueue_style( 'frame-custom-controls-css', \Frame\Core\Theme::get_framework_uri( 'assets/css/customizer.css' ), array(), FRAME_VERSION, 'all' );
 
 		}
 		/**

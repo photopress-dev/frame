@@ -686,7 +686,7 @@ class Customizer {
 	   wp_enqueue_script( 
 		   
 	   		'frame-postmessage', 
-	   		\Frame\Core\Theme::get_parent_theme_uri( 'frame/framework/assets/js/customizer-preview.js' ), 
+	   		\Frame\Core\Theme::get_framework_uri( 'assets/js/customizer-preview.js' ), 
 	   		[ 'jquery', 'customize-preview', 'wp-hooks' ], 
 	   		'1.0', 
 	   		true 
