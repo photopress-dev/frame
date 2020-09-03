@@ -29,16 +29,14 @@ class Theme {
 		$this->load_options();
 		$this->setup_customizer();
 		$this->setup_tgm();
-		$this->enqueue_assets();
 		
 		add_filter( 'pre_get_posts', [$this, 'setup_query'] );
 		
-		
+		add_action( 'wp_enqueue_scripts', [$this, 'enqueue_assets'] );
 		
 	}
 	
 	public function enqueue_assets() {
-		
 		
 		wp_enqueue_style( 'frame-common-styles', self::get_framework_uri('assets/css/common.css'), array(), FRAME_VERSION );
 	}
@@ -94,12 +92,12 @@ class Theme {
 	// gets the directory of Frame
 	public static function get_framework_dir() {
 		
-		return trailingslashit( get_template_directory() ) . 'frame/framework/';
+		return trailingslashit( get_template_directory() ) . 'vendor/photopress/frame/framework/';
 	}
 	
 	public static function get_framework_uri( $path ) {
 		
-		return self::get_parent_theme_uri( 'frame/framework/' . $path );
+		return self::get_parent_theme_uri( 'vendor/photopress/frame/framework/' . $path );
 	}
 	
 	public static function get_theme_uri( $path = '') {
