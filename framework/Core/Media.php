@@ -17,6 +17,7 @@ class Media {
 		$args = wp_parse_args( $args, [
 			'size'   			=> '',
 			'width'	 			=> '',
+			'height'			=> '',
 			'sizes'	 			=> '',
 			'vertical_offset' 	=> apply_filters('frame/media/vertical_offset', 0),
 			'horizontal_offset' => apply_filters('frame/media/horizontal_offset', 0),

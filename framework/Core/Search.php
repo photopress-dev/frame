@@ -9,8 +9,8 @@ class Search {
 		global $wp_query;
 		
 		$pages = $wp_query->max_num_pages ?: 1;
-	
-		$paged = $wp_query->query['paged'] > 0 ? $wp_query->query['paged'] : 1;
+		
+		$paged = isset($wp_query->query['paged']) && $wp_query->query['paged'] > 0 ? $wp_query->query['paged'] : 1;
 		
 		$range = 7;
 		
@@ -60,6 +60,8 @@ class Search {
 		
 			global $wp_query;
 		}
+		
+		$num_results = __("We found 0 results for your search.");
 		
 		if ( $wp_query->found_posts ) {
 			
