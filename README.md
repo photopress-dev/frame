@@ -1,4 +1,4 @@
-# Frame: A photography-centric WordPress theme Framework
+# Frame: A Photography Theme Framework For WordPress
 
 Frame is a lightweight framework for building photography-centric WordPress themes.
 
