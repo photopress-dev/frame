@@ -3,6 +3,54 @@
 namespace Frame\Core;	
 
 class Post {
+	
+	static function display_terms( $args = [] ) {
+		
+		echo self::render_terms( $args );
+	}
+	
+	/**
+	 * Returns the post taxonomy terms
+
+	 * @param  array  $args
+	 * @return string
+	 */
+	static function render_terms( array $args = [] ) {
+	
+		$html = '';
+	
+		$args = wp_parse_args( $args, [
+			
+			'taxonomy' => 'category',
+			'text'     => '%s',
+			'class'    => '',
+			'seperator'      => _x( ', ', 'taxonomy terms separator', 'photopress-frame' ),
+			'before'   => '',
+			'after'    => ''
+		] );
+	
+		// Append taxonomy to class name.
+		if ( ! $args['class'] ) {
+			
+			$args['class'] = "entry__terms entry__terms--{$args['taxonomy']}";
+		}
+	
+		$terms = get_the_term_list( get_the_ID(), $args['taxonomy'], '', $args['seperator'], '' );
+	
+		if ( $terms ) {
+	
+			$html = sprintf(
+				
+				'<span class="%s">%s</span>',
+				esc_attr( $args['class'] ),
+				sprintf( $args['text'], $terms )
+			);
+	
+			$html = $args['before'] . $html . $args['after'];
+		}
+	
+		return apply_filters( 'frame/post/terms', $html );
+	}
 
 	/**
 	 * Displays a Post's Date.
@@ -26,7 +74,7 @@ class Post {
 	
 			$posted_on = sprintf(
 				/* translators: %s: post date. */
-				esc_html_x( 'Posted on %s', 'post date', 'photoress-ansel' ),
+				esc_html_x( 'Posted on %s', 'post date', 'photopress-frame' ),
 				'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
 			);
 	
@@ -42,7 +90,7 @@ class Post {
 		
 		$byline = sprintf(
 			/* translators: %s: post author. */
-			esc_html_x( 'by %s', 'post author', 'photoress-ansel' ),
+			esc_html_x( 'by %s', 'post author', 'photoress-frame' ),
 			'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 		);
 
@@ -98,16 +146,16 @@ class Post {
 		// Hide category and tag text for pages.
 		if ( 'post' === get_post_type() ) {
 			/* translators: used between list items, there is a space after the comma */
-			$categories_list = get_the_category_list( esc_html__( ', ', 'photoress-ansel' ) );
+			$categories_list = get_the_category_list( esc_html__( ', ', 'photopress-frame' ) );
 			if ( $categories_list ) {
 				/* translators: 1: list of categories. */
-				printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'photoress-ansel' ) . '</span>', $categories_list ); 			}
+				printf( '<span class="cat-links">' . esc_html__( 'Posted in %1$s', 'photopress-frame' ) . '</span>', $categories_list ); 			}
 
 			/* translators: used between list items, there is a space after the comma */
-			$tags_list = get_the_tag_list( '', esc_html_x( ', ', 'list item separator', 'photoress-ansel' ) );
+			$tags_list = get_the_tag_list( '', esc_html_x( ', ', 'list item separator', 'photopress-frame' ) );
 			if ( $tags_list ) {
 				/* translators: 1: list of tags. */
-				printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'photoress-ansel' ) . '</span>', $tags_list ); 
+				printf( '<span class="tags-links">' . esc_html__( 'Tagged %1$s', 'photopress-frame' ) . '</span>', $tags_list ); 
 			}
 		}
 
@@ -117,7 +165,7 @@ class Post {
 				sprintf(
 					wp_kses(
 						/* translators: %s: post title */
-						__( 'Leave a Comment<span class="screen-reader-text"> on %s</span>', 'photoress-ansel' ),
+						__( 'Leave a Comment<span class="screen-reader-text"> on %s</span>', 'photopress-frame' ),
 						array(
 							'span' => array(
 								'class' => array(),
@@ -160,7 +208,7 @@ class Post {
 			$text
 		);
 	
-		return apply_filters( 'Frame/post/title', $args['before'] . $html . $args['after'] );
+		return apply_filters( 'frame/post/title', $args['before'] . $html . $args['after'] );
 	}
 	
 	static function display_title( $args = []) {
@@ -186,7 +234,7 @@ class Post {
 			sprintf( $args['text'], esc_url( $url ) )
 		);
 	
-		return apply_filters( 'hybrid/post/permalink', $args['before'] . $html . $args['after'] );
+		return apply_filters( 'frame/post/permalink', $args['before'] . $html . $args['after'] );
 	}
 	
 	static function get_meta( $key, $subkey = '') {

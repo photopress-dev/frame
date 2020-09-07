@@ -50,7 +50,7 @@ class Theme {
 	       
 	    }
 	    
-	    $query->set( 'posts_per_page', apply_filters( 'frame/query/posts_per_page', 50 ) );
+	    //$query->set( 'posts_per_page', apply_filters( 'frame/query/posts_per_page', 50 ) );
 	 
 	   return $query;
 	}
