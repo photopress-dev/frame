@@ -24,7 +24,7 @@ class Post {
 			'taxonomy' => 'category',
 			'text'     => '%s',
 			'class'    => '',
-			'seperator'      => _x( ', ', 'taxonomy terms separator', 'photopress-frame' ),
+			'separator'      => _x( ', ', 'taxonomy terms separator', 'photopress-frame' ),
 			'before'   => '',
 			'after'    => ''
 		] );
@@ -35,13 +35,13 @@ class Post {
 			$args['class'] = "entry__terms entry__terms--{$args['taxonomy']}";
 		}
 	
-		$terms = get_the_term_list( get_the_ID(), $args['taxonomy'], '', $args['seperator'], '' );
+		$terms = get_the_term_list( get_the_ID(), $args['taxonomy'], '<span>', '</span><span>', '</span>' );
 	
 		if ( $terms ) {
 	
 			$html = sprintf(
 				
-				'<span class="%s">%s</span>',
+				'<div class="%s">%s</div>',
 				esc_attr( $args['class'] ),
 				sprintf( $args['text'], $terms )
 			);
