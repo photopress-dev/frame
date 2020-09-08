@@ -23,7 +23,9 @@ class Taxonomy {
 		
 		$t = get_taxonomy( $taxonomy_name );
 
-		return $t->label;
+		$label = $t->labels ? $t->labels->singular_name : $t->label;
+		
+		return $label;
 	}
 	
 	public static function get_term() {
