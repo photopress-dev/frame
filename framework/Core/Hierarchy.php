@@ -34,7 +34,7 @@ class Hierarchy {
 		
 		// Filter the single, page, and attachment templates.
 		add_filter( 'single_template_hierarchy',     [ $this, 'single' ], 5 );
-	
+		add_filter( 'taxonomy_template_hierarchy',     [ $this, 'taxonomy' ], 5 );
 		// System for capturing the template hierarchy.
 		foreach ( $this->types as $type ) {
 			
@@ -105,6 +105,33 @@ class Hierarchy {
 
 		// Return the template hierarchy.
 	
+		return $templates;
+	}
+	
+	function taxonomy( $templates ) {
+		
+		$templates = [];
+		
+		$tax = get_query_var( 'taxonomy' );
+		$taxonomy = get_taxonomy( $tax );
+		$term = get_query_var( 'taxonomy' );
+		
+		if ( $term && $tax) {
+			
+			$templates[] = "taxonomy-$tax-$term.php";
+			$templates[] = "taxonomy-$tax.php";
+		}
+		
+		$post_type = get_post_type();
+		
+		// add templates for the object type (ie. image taxonomies)
+		if ( in_array( $post_type, $taxonomy->object_type ) ) {
+			
+			$templates[] = "taxonomy-$post_type.php";	
+		}
+		
+		$templates[] = "taxonomy.php";
+		
 		return $templates;
 	}
 	
