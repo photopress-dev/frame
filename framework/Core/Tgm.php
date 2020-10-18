@@ -3,6 +3,7 @@
 namespace Frame\Core;
 use tgmpa;
 
+
 class Tgm {
 	
 	public function __construct() {

@@ -56,12 +56,17 @@ class Search {
 	
 	public static function display_number_of_results( $wp_query = '' ) {
 		
+		echo sprintf('<div class="num-results">%s</div>', self::get_number_of_results( $wp_query ) );	
+	}
+	
+	public static function get_number_of_results( $wp_query = '' ) {
+		
 		if ( ! $wp_query ) {
 		
 			global $wp_query;
 		}
 		
-		$num_results = __("We found 0 results for your search.");
+		$num_results = __("0 results.");
 		
 		if ( $wp_query->found_posts ) {
 			
@@ -69,8 +74,8 @@ class Search {
 				
 				/* translators: %s: Number of search results. */
 				_n(
-					'We found %s result for your search.',
-					'We found %s results for your search.' ,
+					'(%s result.)',
+					'(%s results.)' ,
 					$wp_query->found_posts,
 					'ansel'
 				),
@@ -79,7 +84,7 @@ class Search {
 			);			
 		}
 		
-		echo "<div class=\"number-of-results\">$num_results</div>";
+		return $num_results;
 		
 	}
 	
