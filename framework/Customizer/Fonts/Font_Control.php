@@ -70,6 +70,9 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 			if ( $this->fontValues ) {
 				// Find the index of our default font within our list of Google fonts
 				$this->fontListIndex = $this->get_font_index( $this->fontList, $this->fontValues->font );
+			} else {
+				
+				$this->fontValues = (object)[ 'font' => '', 'regularweight' => '', 'italicweight' => '', 'boldweight' => '', 'category'=> '' ];
 			}
 		}
 		
@@ -100,6 +103,13 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 			$fontListStr = '';
 			$default_fonts = \Frame\Core\Customizer::get_default_fonts();
 			
+			
+			$fv = '';
+			if ( is_object($this->fontValues) && property_exists($this->fontValues, 'font') ) {
+				
+				$fv = $this->fontValues->font;
+			}
+			
 			if( !empty($this->fontList) ) {
 				?>
 				<div class="google_fonts_select_control">
@@ -119,9 +129,9 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 									
 									$fontCounter++;
 									
-									$fontListStr .= '<option value="' . $dvalue->family . '" ' . selected( $this->fontValues->font, $dvalue->family, false ) . '>' .  $dvalue->family . '</option>';
+									$fontListStr .= '<option value="' . $dvalue->family . '" ' . selected( $fv, $dvalue->family, false ) . '>' .  $dvalue->family . '</option>';
 									
-									if ( $this->fontValues->font === $dvalue->family ) {
+									if ( $fv === $dvalue->family ) {
 										
 										$isFontInList = true;
 									}
@@ -139,9 +149,16 @@ if ( class_exists( 'WP_Customize_Control' ) ) {
 									
 									$fontCounter++;
 									
-									$fontListStr .= '<option value="' . $value->family . '" ' . selected( $this->fontValues->font, $value->family, false ) . '>' .  $value->family . '</option>';
+									$fv = '';
+									if ( is_object($this->fontValues) && property_exists($this->fontValues, 'font') ) {
+										
+										$fv = $this->fontValues->font;
+									}
 									
-									if ( $this->fontValues->font === $value->family ) {
+									
+									$fontListStr .= '<option value="' . $value->family . '" ' . selected( $fv, $value->family, false ) . '>' .  $value->family . '</option>';
+									
+									if ( $fv === $value->family ) {
 										$isFontInList = true;
 									}
 									
