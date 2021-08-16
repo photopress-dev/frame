@@ -162,7 +162,7 @@ class Media {
 		return array_merge( $sizes, $custom );
 	}
 	
-	public static function get_file_name( $id = '' ) {
+	public static function get_file_name( $id = '', $size = 'original_image' ) {
 		
 		if ( ! $id ) {
 			
@@ -171,7 +171,7 @@ class Media {
 		
 		$meta = wp_get_attachment_metadata( $id );
 		
-		$file = basename($meta['file']);
+		$file = $meta[$size];
 		
 		return $file;
 		
