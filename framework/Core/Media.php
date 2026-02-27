@@ -34,20 +34,42 @@ class Media {
 		
 		$attrs['class'] = 'wp-image ' . $args['class'];
 		
-		$aspect_ratio = self::calc_aspect_ratio( $meta['width'], $meta['height'] );
-		
-		if ( is_single() ) {
-			if ( $aspect_ratio < 1 ) {
+		if ( empty( $args['width'] ) || empty( $args['height'] ) ) {
+			
+			if ( is_array( $meta ) ) {
 				
-				$attrs['class'] = $attrs['class'] . ' portrait-orientation';
-							
-			} else {
+				if ( array_key_exists( 'width', $meta ) ) {
+					$args['width'] = $meta['width'];
+				} else {
+					$args['width'] = null;
+				}
 				
-				$attrs['class'] = $attrs['class'] . ' landscape-orientation';
+				if ( array_key_exists( 'height', $meta ) ) {
+					$args['height'] = $meta['height'];
+				} else {
+					$args['height'] = null;
+				}
 				
 			}
-		}
+			
+		} 
 		
+		
+		//$aspect_ratio = self::calc_aspect_ratio( $meta['width'], $meta['height'] );
+		if ( $args['height'] > 0 ) {
+			$aspect_ratio = self::calc_aspect_ratio( $args['width'], $args['height'] );
+			if ( is_single() ) {
+				if ( $aspect_ratio < 1 ) {
+					
+					$attrs['class'] = $attrs['class'] . ' portrait-orientation';
+								
+				} else {
+					
+					$attrs['class'] = $attrs['class'] . ' landscape-orientation';
+					
+				}
+			}
+		}
 		$vertical_offset = $args['vertical_offset'];
 		
 		// calc size based on keeping image above the fold.
