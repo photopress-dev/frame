@@ -69,6 +69,9 @@ class Media {
 					
 				}
 			}
+		} else {
+			
+			$aspect_ratio = 1;
 		}
 		$vertical_offset = $args['vertical_offset'];
 		
@@ -87,7 +90,6 @@ class Media {
 		} 
 		
 		$img = wp_get_attachment_image( $post_id, $args['size'], '', $attrs );
-		
 		
 		$markup = '';
 		if ( $args['link'] ) {
@@ -193,10 +195,12 @@ class Media {
 		
 		$meta = wp_get_attachment_metadata( $id );
 		
-		$file = basename($meta['file']);
+		if ( is_array( $meta ) && array_key_exists( 'file', $meta ) && ! empty( $meta['file'] ) ) {
 		
-		return $file;
+			$file = basename($meta['file']);
 		
+			return $file;
+		}	
 	}
 	
 	public static function display_file_name( $id = '') {
