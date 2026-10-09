@@ -8,7 +8,7 @@ class Util {
 		
 		$needles = [];
 		
-		array_walk( $args, function( &$v, &$k ) use (&$needles) {
+		array_walk( $args, function( &$v, $k ) use (&$needles) {
 			
 			$needles[ "{". $k . "}" ] = $v;
 			
