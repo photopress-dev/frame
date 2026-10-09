@@ -7,11 +7,6 @@ namespace Frame\Core;
  */
 class Media {
 	
-	private static function calc_aspect_ratio( $width, $height) {
-		
-		return isset( $width ) ? round( intval( $width ) / intval( $height ), 2 ) : '';
-	}
-	
 	public static function display_attachment_image( $args = [] ) {
 		
 		$args = wp_parse_args( $args, [
@@ -34,61 +29,46 @@ class Media {
 		
 		$attrs['class'] = 'wp-image ' . $args['class'];
 		
-		if ( empty( $args['width'] ) || empty( $args['height'] ) ) {
-			
-			if ( is_array( $meta ) ) {
-				
-				if ( array_key_exists( 'width', $meta ) ) {
-					$args['width'] = $meta['width'];
-				} else {
-					$args['width'] = null;
-				}
-				
-				if ( array_key_exists( 'height', $meta ) ) {
-					$args['height'] = $meta['height'];
-				} else {
-					$args['height'] = null;
-				}
-				
-			}
-			
-		} 
-		
-		
-		//$aspect_ratio = self::calc_aspect_ratio( $meta['width'], $meta['height'] );
-		if ( $args['height'] > 0 ) {
-			$aspect_ratio = self::calc_aspect_ratio( $args['width'], $args['height'] );
-			if ( is_single() ) {
-				if ( $aspect_ratio < 1 ) {
-					
-					$attrs['class'] = $attrs['class'] . ' portrait-orientation';
-								
-				} else {
-					
-					$attrs['class'] = $attrs['class'] . ' landscape-orientation';
-					
-				}
-			}
-		} else {
-			
-			$aspect_ratio = 1;
+		// The image's shape: from the width and height given, or else from
+		// its metadata. Kept apart from the arguments, which, given, set the
+		// width it is shown at.
+		$width  = $args['width'];
+		$height = $args['height'];
+
+		if ( ( empty( $width ) || empty( $height ) ) && is_array( $meta ) ) {
+			$width  = isset( $meta['width'] ) ? $meta['width'] : null;
+			$height = isset( $meta['height'] ) ? $meta['height'] : null;
 		}
-		$vertical_offset = $args['vertical_offset'];
-		
-		// calc size based on keeping image above the fold.
-		if ( $args['width'] ) {
-			
-			$attrs['sizes'] = $args['width'] .'px';
-			
-		} else if  ( $args['height'] ) {
-			
-			$attrs['sizes'] = round( intval( $args['height'] ) * $aspect_ratio) .'px';
-			
-		} else if ( ! $args['width'] || ! $args['height'] ) {
-			
-			$attrs['sizes'] = "calc( (100vh - $vertical_offset ) * $aspect_ratio )";	
-		} 
-		
+
+		$aspect_ratio = $height > 0 ? intval( $width ) / intval( $height ) : 1;
+
+		if ( $height > 0 && is_single() ) {
+			$attrs['class'] .= $aspect_ratio < 1 ? ' portrait-orientation' : ' landscape-orientation';
+		}
+
+		/*
+		 * sizes: the width the image is shown at, which the browser picks its
+		 * file from srcset by. As given (only the theme knows the width of its
+		 * column); else the width given, or the width at the height given;
+		 * else WordPress's own, the image's width or the window's if less,
+		 * never less than it is shown at. vertical_offset no longer sets it:
+		 * the image's width attribute, not its sizes, decides how large it is
+		 * laid out, so a sizes worked out from the window's height gave
+		 * files too small for an image wider than that.
+		 */
+		if ( $args['sizes'] ) {
+
+			$attrs['sizes'] = $args['sizes'];
+
+		} else if ( $args['width'] ) {
+
+			$attrs['sizes'] = intval( $args['width'] ) . 'px';
+
+		} else if ( $args['height'] ) {
+
+			$attrs['sizes'] = round( intval( $args['height'] ) * $aspect_ratio ) . 'px';
+		}
+
 		$img = wp_get_attachment_image( $post_id, $args['size'], '', $attrs );
 		
 		$markup = '';
